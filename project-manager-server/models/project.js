@@ -1,3 +1,5 @@
+// Mogoose Project Model
+
 var mongoose = require('mongoose');
 
 const schema = mongoose.Schema;

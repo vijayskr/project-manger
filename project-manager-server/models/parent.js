@@ -1,3 +1,5 @@
+// Mogoose Parent Model
+
 var mongoose = require('mongoose');
 
 const schema = mongoose.Schema;

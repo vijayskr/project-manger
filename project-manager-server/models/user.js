@@ -1,3 +1,5 @@
+// Mogoose User Model
+
 var mongoose = require('mongoose');
 
 let user = new mongoose.Schema({

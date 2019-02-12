@@ -1,3 +1,5 @@
+// Mogoose Task Model
+
 var mongoose = require('mongoose');
 
 const schema = mongoose.Schema;
