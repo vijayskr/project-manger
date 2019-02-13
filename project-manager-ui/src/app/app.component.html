@@ -11,22 +11,26 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Add User</a>
+        <a class="nav-link" routerLink="/user" routerLinkActive="active">Add User</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">Add Task</a>
+        <a class="nav-link" routerLink="/task" routerLinkActive="active">Add Task</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">View Task</a>
+        <a class="nav-link" routerLink="/viewtask" routerLinkActive="active">View Task</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">Add Project</a>
+        <a class="nav-link" routerLink="/project" routerLinkActive="active">Add Project</a>
       </li>
     </ul>
   </div>
 </nav>
 
+<div class="container">
+  <br />
+<br />
 <router-outlet></router-outlet>
+</div>
