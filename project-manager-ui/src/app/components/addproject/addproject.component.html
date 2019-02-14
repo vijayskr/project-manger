@@ -17,12 +17,14 @@
             <label for="setDates" class="checkboxPadding">Set Start and End Date</label>
           </div>
           <div class="col-md-4 col-sm-12">
-            <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate" formControlName='startDate'
-              ngbDatepicker #startDatePicker="ngbDatepicker" (focus)="startDatePicker.toggle()">
+            <input class="form-control" placeholder="Start Date" name='startDate'
+            aria-describedby="startDate" formControlName='startDate'
+            ngbDatepicker #startDatePicker="ngbDatepicker" (focus)="startDatePicker.toggle()">
           </div>
           <div class="col-md-4 col-sm-12">
-            <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate" formControlName='endDate' ngbDatepicker
-              #endDatePicker="ngbDatepicker" (focus)="endDatePicker.toggle()">
+            <input class="form-control" placeholder="End Date" name='endDate'
+            aria-describedby="endDate" formControlName='endDate' ngbDatepicker
+            #endDatePicker="ngbDatepicker" (focus)="endDatePicker.toggle()">
           </div>
         </div>
       </div>
@@ -45,7 +47,7 @@
             <input type="text" class="form-control" formControlName='manager' name='manager' aria-describedby='manager' readonly>
           </div>
           <div class="col-md-2 col-sm-12">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#userSearchModel">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userSearchModel">
               <span class="fa fa-search"></span> Search
             </button>
           </div>
@@ -159,5 +161,4 @@
 
 <!-- user search model component-->
 <!--<user-search (userSelected)="onManagerSelected($event)"></user-search> -->
-<app-searchuser (userSelected)="onUserSelected($event)"></app-searchuser>
-
+<app-searchuser (userSelected)="onManagerSelected($event)"></app-searchuser>

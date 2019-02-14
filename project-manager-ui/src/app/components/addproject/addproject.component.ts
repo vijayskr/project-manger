@@ -171,8 +171,9 @@ export class AddprojectComponent implements OnInit {
   }
 
   editProject(projectID) {
-    this.projectService.getProject(projectID).subscribe(response => {
-      if (response.Success === true) {
+
+this.projectService.getProject(projectID).subscribe(response => {
+        if (response.Success === true) {
         this.projectForm.controls['projectName'].setValue(
           response.Data.Project
         );
@@ -184,11 +185,21 @@ export class AddprojectComponent implements OnInit {
           response.Data.Project_ID
         );
 
-        let startDate, endDate;
+        console.log('Edit Log1 ::' + response.Data.Start_Date);
+        console.log('Edit Log2 ::' + response.Data.End_Date);
+
+        let startDate: NgbDateStruct;
+        let endDate: NgbDateStruct;
+
         if (response.Data.Start_Date || response.Data.End_Date) {
           this.projectForm.controls['setDates'].setValue(true);
-console.log(response.Data.Start_Date.toLocaleDateString().valueOf());
-          startDate = <NgbDateStruct>{
+
+          console.log('Edit Log2 ::' + response.Data.Start_Date);
+                  console.log(
+                    'Edit Log2 ::' + response.Data.End_Date
+                  );
+
+          startDate = <NgbDateStruct> {
             year: response.Data.Start_Date.getFullYear(),
             month: response.Data.Start_Date.getMonth() + 1,
             day: response.Data.Start_Date.getDate()
@@ -327,8 +338,8 @@ console.log(response.Data.Start_Date.toLocaleDateString().valueOf());
           .add(-1, 'months')
           .toDate();
 
-        console.log(startDate);
-        console.log(endDate);
+        console.log('Loading Update1' + startDate);
+        console.log('Loading Update2' + endDate);
 
         if (endDate && startDate) {
           if (startDate > endDate) {

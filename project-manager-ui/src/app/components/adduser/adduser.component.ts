@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { UserService } from './users.service';
 import { AlertService } from '../services/alert.service';
 import { User } from '../../models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-adduser',
@@ -19,7 +20,8 @@ export class AdduserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private formbuilder: FormBuilder,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private toastr: ToastrService
   ) {
     this.createForm();
   }
@@ -74,6 +76,7 @@ export class AdduserComponent implements OnInit {
       console.log(response);
       if (response.Success === true) {
         // show success message and refresh the list
+        console.log('User added successfully!');
         this.alertService.success('User added successfully!', 'Success', 3000);
 
         this.refreshList();
