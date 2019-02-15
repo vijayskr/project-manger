@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, EventEmitter, Input,
+  Output, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from './users.service';
 import { AlertService } from '../services/alert.service';
@@ -16,6 +17,10 @@ export class AdduserComponent implements OnInit {
   userAction: string;
   SortKey: string;
   SearchKey: string;
+
+  page = 1;
+  pageSize = 2;
+  collectionSize = 1;
 
   constructor(
     private userService: UserService,
@@ -48,6 +53,7 @@ export class AdduserComponent implements OnInit {
   }
 
   refreshList() {
+    this.collectionSize = 0;
     this.userService
       .getUsersList(this.SearchKey, this.SortKey)
       .subscribe(response => {
@@ -80,6 +86,7 @@ export class AdduserComponent implements OnInit {
         this.alertService.success('User added successfully!', 'Success', 3000);
 
         this.refreshList();
+        this.reset();
       } else {
         this.alertService.error(response.Message, 'Error', 3000);
       }
@@ -175,55 +182,3 @@ export class AdduserComponent implements OnInit {
     this.refreshList();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-import { UserService } from './../../users.service';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from '../../models/user';
-import { MatTableDataSource } from '@angular/material';
-
-@Component({
-  selector: 'app-adduser',
-  templateUrl: './adduser.component.html',
-  styleUrls: ['./adduser.component.css']
-})
-export class AdduserComponent implements OnInit {
-
-  users: User[];
-  displayedcolumns = ['userId', 'firstName', 'lastName', 'employeeId',
-                      'projectId', 'taskId', 'actions'];
-
-  constructor(private userService: UserService, private router: Router) { }
-
-  ngOnInit() {
-    this.fetchUsers();
-  }
-
-  fetchUsers() {
-    this.userService.getUsers().subscribe((data: User[]) => {
-      this.users = data;
-    });
-  }
-}
-*/

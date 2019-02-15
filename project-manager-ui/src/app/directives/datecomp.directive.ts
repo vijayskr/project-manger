@@ -22,15 +22,17 @@ export class DatecompDirective implements Validator {
   @Input() opt: string;
 
   validate(control: AbstractControl): { [key: string]: any } | null {
-    const source = moment(control.value)
+    const source = control.value;
+    /*moment(control.value)
       .add(-1, 'months')
-      .toDate();
-    const target = moment(this.compDate)
+      .toDate();*/
+    const target = this.compDate.toString();
+    /*moment(this.compDate)
       .add(-1, 'months')
-      .toDate();
+      .toDate();*/
 
     console.log(control.value);
-    console.log(this.compDate);
+    console.log(this.compDate.toString());
 
     if (this.opt === 'less than') {
       if (target < source) {

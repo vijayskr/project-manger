@@ -18,27 +18,18 @@ declare var $: any;
   styleUrls: ['./addtask.component.css']
 })
 export class AddtaskComponent implements OnInit {
+  today = new Date().toDateString();
+
   taskId: any = null;
 
-  taskStartDate: NgbDateStruct = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    day: new Date().getDate()
-  };
-
-  taskEndDate: NgbDateStruct = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    day: new Date().getDate() + 1
-  };
+  taskStartDate = moment(this.today).format('YYYY-MM-DD');
+  taskEndDate = moment(this.today).format('YYYY-MM-DD');
 
   task = <Task>{
     Task: '',
     Priority: 0,
-    Start_Date: moment().format('DD/MM/YYYY'),
-    End_Date: moment()
-      .add(1, 'days')
-      .format('DD/MM/YYYY')
+    Start_Date: moment().format('YYYY-MM-DD'),
+    End_Date: moment().format('YYYY-MM-DD')
   };
 
   isParentTask: false;
@@ -63,46 +54,27 @@ export class AddtaskComponent implements OnInit {
         this.task = response.Data;
 
         const startDateSource = moment(this.task.Start_Date).toDate();
-        this.taskStartDate = {
-          year: startDateSource.getFullYear(),
-          month: startDateSource.getMonth() + 1,
-          day: startDateSource.getDate()
-        };
+        this.taskStartDate = moment(startDateSource).format('YYYY-MM-DD');
 
-        const endDateSource = moment(this.task.Start_Date).toDate();
-        this.taskEndDate = {
-          year: endDateSource.getFullYear(),
-          month: endDateSource.getMonth() + 1,
-          day: endDateSource.getDate()
-        };
+        const endDateSource = moment(this.task.End_Date).toDate();
+        this.taskEndDate = moment(endDateSource).format('YYYY-MM-DD');
       });
     }
   }
 
   reset() {
-    this.taskStartDate = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
-
-    this.taskEndDate = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate() + 1
-    };
+    this.taskStartDate = moment(this.today).format('YYYY-MM-DD');
+    this.taskEndDate = moment(this.today).format('YYYY-MM-DD');
 
     this.task = <Task>{
       Task: null,
       Priority: 0,
-      Start_Date: moment().format('DD/MM/YYYY'),
-      End_Date: moment()
-        .add(1, 'days')
-        .format('DD/MM/YYYY')
+      Start_Date: this.taskStartDate,
+      End_Date: Date()
     };
+
     this.isParentTask = false;
     this.taskId = null;
-    // $('#taskName').removeClass('ng-invalid');
   }
 
   addTask() {
@@ -116,8 +88,8 @@ export class AddtaskComponent implements OnInit {
       this.parentTaskService.addParentTask(newParent).subscribe(response => {
         if (response.Success === true) {
           this.alertService.success(
-            'Task added successfully!',
-            'success',
+            'Parent Task Added successfully!',
+            'SUCCESS',
             3000
           );
           this.reset();
@@ -126,16 +98,13 @@ export class AddtaskComponent implements OnInit {
         }
       });
     } else {
-      this.task.Start_Date = moment(this.taskStartDate)
-        .add(-1, 'months')
-        .format('YYYY-MM-DD');
-      this.task.End_Date = moment(this.taskEndDate)
-        .add(-1, 'months')
-        .format('YYYY-MM-DD');
+      this.task.Start_Date = this.taskStartDate.toString();
+      this.task.End_Date = this.taskEndDate.toString();
+
       // create individual task with or without linked to parent task
       this.taskService.addTask(this.task).subscribe(response => {
         if (response.Success === true) {
-          this.alertService.success('Task added successfuly!', 'Success', 3000);
+          this.alertService.success('New Task Added Successfuly!', 'SUCCESS', 3000);
           this.reset();
         } else {
           this.alertService.error(response.Message, 'Error', 3000);
@@ -145,16 +114,13 @@ export class AddtaskComponent implements OnInit {
   }
 
   updateTask() {
-    this.task.Start_Date = moment(this.taskStartDate)
-      .add(-1, 'months')
-      .format('YYYY-MM-DD');
-    this.task.End_Date = moment(this.taskEndDate)
-      .add(-1, 'months')
-      .format('YYYY-MM-DD');
+    this.task.Start_Date = this.taskStartDate.toString();
+    this.task.End_Date = this.taskEndDate.toString();
 
     this.taskService.editTask(this.task).subscribe(response => {
       if (response.Success === true) {
-        this.alertService.success('Task updated successfuly!', 'Success', 3000);
+        this.alertService.success('Task Updated successfuly!', 'Success', 3000);
+        this.reset();
       } else {
         this.alertService.error(response.Message, 'Error', 3000);
       }

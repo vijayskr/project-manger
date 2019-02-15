@@ -1,16 +1,17 @@
+<h3>Add/Update Task:</h3>
 <div class="col-md-9">
   <form #taskForm="ngForm">
     <div class="form-group row">
       <div class="col-md-2">
-        <label for="projectName">Project:</label>
-        <span class="astreik">*</span>
+        <label for="projectName"><strong>Project: </strong></label>
+        <span class="astreik"><b>*</b></span>
       </div>
       <div class="col-md-8">
         <input type="text" class="form-control" name="projectName" aria-describedby="projectName"
         readonly required [(ngModel)]="task.Project && task.Project.Project">
       </div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#projectSearchModel" [disabled]="taskId>0">
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#projectSearchModel" [disabled]="taskId>0">
           <span class="fa fa-search"></span> Search
         </button>
       </div>
@@ -49,7 +50,7 @@
         <input type="text" class="form-control" name="parentTaskName" aria-describedby="parentTaskName" readonly [(ngModel)]="task.Parent && task.Parent.Parent_Task">
       </div>
       <div class="col-md-2">
-        <button [disabled]="isParentTask || !task.Project" type="button" class="btn btn-default" data-toggle="modal" data-target="#parentSearchModel">
+        <button [disabled]="isParentTask || !task.Project" type="button" class="btn btn-link" data-toggle="modal" data-target="#parentSearchModel">
           <span class="fa fa-search"></span> Search
         </button>
       </div>
@@ -59,18 +60,16 @@
         <label for="startDate">Start Date:</label>
       </div>
       <div class="col-md-4">
-        <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate" ngbDatepicker #startDatePicker="ngbDatepicker"
-          (focus)="startDatePicker.toggle()" [disabled]="isParentTask" [(ngModel)]="taskStartDate" [required]="!isParentTask"
-          [appDatecomp]="taskEndDate" operation="less than">
-      </div>
+        <input class="form-control" type="date" placeholder="Start Date" name='startDate' aria-describedby="startDate"
+         [disabled]="isParentTask" [(ngModel)]="taskStartDate" [required]="!isParentTask">
+
+        </div>
       <div class="col-md-2">
         <label for="endDate">End Date:</label>
       </div>
       <div class="col-md-4">
-        <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate" ngbDatepicker #endDatePicker="ngbDatepicker"
-          (focus)="endDatePicker.toggle()" [disabled]="isParentTask" [(ngModel)]="taskEndDate" [required]="!isParentTask" [appDatecomp]="taskStartDate"
-          operation="greater than">
-
+        <input class="form-control" type="date" placeholder="End Date" name='endDate' aria-describedby="endDate"
+          [disabled]="isParentTask" [(ngModel)]="taskEndDate" [required]="!isParentTask" >
       </div>
     </div>
     <div class="row form-group">
@@ -79,13 +78,14 @@
       </div>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-8">
             <input type="text" class="form-control" name='user' aria-describedby='user' readonly [(ngModel)]="task.User && task.User.Full_Name"
               [required]="!isParentTask">
           </div>
-          <div class="col-md-2">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#userSearchModel" [disabled]="isParentTask">
-              <span class="fa fa-search"></span> Search
+          <div class="col-md-4">
+            <button type="button" class="btn btn-link" data-toggle="modal"
+            data-target="#userSearchModel" [disabled]="isParentTask">
+              <span class="fa fa-search"></span>Search
             </button>
           </div>
         </div>
@@ -94,9 +94,9 @@
     <div class="row form-group">
       <div class="col-md-12 offset-md-9">
         <input type="hidden" name="projectId">
-        <button class="btn btn-primary" *ngIf="!taskId" [disabled]="!taskForm.form.valid" (click)="addTask()">Add Task</button>
-        <button class="btn btn-primary" *ngIf="taskId" [disabled]="!taskForm.form.valid" (click)="updateTask()">Update Task</button> &nbsp;&nbsp;
-        <button type="button" class="btn btn-secondary" (click)="reset()">Reset</button>
+        <button class="btn btn-success" *ngIf="!taskId" [disabled]="!taskForm.form.valid" (click)="addTask()">Add Task</button>
+        <button class="btn btn-success" *ngIf="taskId" [disabled]="!taskForm.form.valid" (click)="updateTask()">Update Task</button> &nbsp;&nbsp;
+        <button type="button" class="btn btn-link" (click)="reset()">Reset</button>
       </div>
     </div>
   </form>

@@ -5,11 +5,11 @@
         <div class="col-md-2">
           <label for="projectName">Project:</label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input type="text" class="form-control" name="projectName" aria-describedby="projectName" readonly [(ngModel)]="project && project.Project">
         </div>
-        <div class="col-md-2">
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#projectSearchModel">
+        <div class="col-md-4">
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#projectSearchModel">
             <span class="fa fa-search"></span> Search
           </button>
         </div>
@@ -35,6 +35,7 @@
 <hr style="width: 100%;" class="hrListItem" />
 
 <div *ngIf="Tasks && Tasks.length>0" class="col-md-12">
+  <!--
   <table *ngFor="let task of Tasks" class="table table-borderless taskTable">
     <thead>
       <td style="width: 25%">Task</td>
@@ -57,8 +58,8 @@
         <td>{{task.Start_Date | date:'dd-MM-yyyy'}}</td>
         <td>{{task.End_Date | date:'dd-MM-yyyy'}}</td>
         <td *ngIf="task.Status==0">
-          <button type="button" class="btn btn-secondary" (click)="editTask(task.Task_ID)">Edit</button>&nbsp;
-          <button type="button" class="btn btn-secondary" (click)="endTask(task.Task_ID)">End Task</button>
+          <button type="button" class="btn btn-primary" (click)="editTask(task.Task_ID)">Edit</button>&nbsp;
+          <button type="button" class="btn btn-danger" (click)="endTask(task.Task_ID)">End Task</button>
         </td>
         <td *ngIf="task.Status==1">Completed</td>
       </tr>
@@ -69,6 +70,45 @@
       </tr>
     </tbody>
   </table>
+-->
+
+        <span class="sortlbl">
+          <strong>Sort By Clicking on Table Header</strong> First Name, Last Name, Employee ID</span>
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Task Name</th>
+              <th scope="col" (click)="sortTask('Priority')">Priority</th>
+              <th scope="col">Parent</th>
+              <th scope="col" (click)="sortTask('Start_Date')">Start Date</th>
+              <th scope="col" (click)="sortTask('End_Date')">End Date</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of Tasks; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ task.Task }}</td>
+              <td>{{ task.Priority }}</td>
+                      <td>
+                        <label *ngIf="!task.Parent">This Task Has NO Parent</label>
+                        <label *ngIf="task.Parent">{{task.Parent.Parent_Task}}</label>
+                      </td>
+              <td>{{ task.Start_Date }}</td>
+               <td>{{ task.End_Date }}</td>
+              <td>
+                <button class="btn btn-primary" (click)="editTask(task.Task_ID)">
+                  Edit Task
+                </button> &nbsp;&nbsp;
+                <button class="btn btn-danger" (click)="endTask(task.Task_ID)">
+                  End Task
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
 </div>
 
   <app-searchproject (projectSelected)="onProjectSelected($event)"> </app-searchproject>

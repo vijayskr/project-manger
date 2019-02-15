@@ -62,7 +62,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({toastClass: 'toast toast-bootstrap-compatibility-fix'}),
     NgbModule.forRoot()
   ],
   providers: [

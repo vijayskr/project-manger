@@ -1,9 +1,12 @@
 /* Global Styling CSS Includes */
 
-@import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import "../node_modules/font-awesome/css/font-awesome.min.css";
 @import "../node_modules/ngx-toastr/toastr.css";
 
+.toast-bootstrap-compatibility-fix {
+  opacity: 1;
+}
 .ng-dirty.ng-valid[required],
 .ng-dirty.ng-valid.required {
   border-left: 5px solid #42A948;

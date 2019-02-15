@@ -27,7 +27,7 @@ export class ViewtaskComponent implements OnInit {
   editTask(taskId: number) {
     this.taskService.getTask(taskId).subscribe(response => {
       if (response.Success === true) {
-        this.router.navigate(['/task/add'], {
+        this.router.navigate(['/task'], {
           queryParams: { taskId: taskId }
         });
       } else {
