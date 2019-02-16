@@ -1,9 +1,17 @@
 .navbar {
   font-weight: bold;
   padding-left: 0px;
+  color: rgb(246, 251, 255);
 }
 
-.navbar .nav-link.active,
+.navbar .nav-link.active {
+  color: rgb(103, 255, 217);
+}
+
 .navbar .nav-link:hover {
-  color: blue;
+  color: rgb(151, 247, 96);
+}
+
+.navbar .nav-link {
+  color: rgb(245, 239, 191);
 }

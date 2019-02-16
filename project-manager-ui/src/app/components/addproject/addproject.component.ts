@@ -23,6 +23,8 @@ export class AddprojectComponent implements OnInit {
   SortKey: string;
   SearchKey: string;
   Manager: User;
+  prjStartDate = '';
+  prjEndDate = '';
 
   constructor(
     private projectService: ProjectService,
@@ -37,8 +39,10 @@ export class AddprojectComponent implements OnInit {
     this.projectForm = this.formbuilder.group({
       projectName: ['', Validators.required],
       setDates: false,
-      startDate: [{ value: '', disabled: true }],
-      endDate: [{ value: '', disabled: true }],
+      startDate: [
+        { value: moment(new Date()).format('YYYY-MM-DD'), disabled: true }
+      ],
+      endDate: [{ value: moment(new Date()).format('YYYY-MM-DD'), disabled: true }],
       priority: 0,
       manager: '',
       projectId: ''
@@ -105,14 +109,8 @@ export class AddprojectComponent implements OnInit {
     }
 
     if (this.setDates) {
-      newProject.Start_Date = moment(
-        this.projectForm.controls['startDate'].value
-      )
-        .add(-1, 'months')
-        .toDate();
-      newProject.End_Date = moment(this.projectForm.controls['endDate'].value)
-        .add(-1, 'months')
-        .toDate();
+      newProject.Start_Date = moment(this.prjStartDate).toDate();
+      newProject.End_Date = moment(this.prjEndDate).toDate();
     }
 
     this.projectService.addProject(newProject).subscribe(response => {
@@ -142,16 +140,8 @@ export class AddprojectComponent implements OnInit {
     }
 
     if (this.setDates) {
-      updateProject.Start_Date = moment(
-        this.projectForm.controls['startDate'].value
-      )
-        .add(-1, 'months')
-        .toDate();
-      updateProject.End_Date = moment(
-        this.projectForm.controls['endDate'].value
-      )
-        .add(-1, 'months')
-        .toDate();
+      updateProject.Start_Date = moment(this.prjStartDate).toDate();
+      updateProject.End_Date = moment(this.prjEndDate).toDate();
     }
 
     this.projectService.editProject(updateProject).subscribe(response => {
@@ -171,9 +161,8 @@ export class AddprojectComponent implements OnInit {
   }
 
   editProject(projectID) {
-
-this.projectService.getProject(projectID).subscribe(response => {
-        if (response.Success === true) {
+    this.projectService.getProject(projectID).subscribe(response => {
+      if (response.Success === true) {
         this.projectForm.controls['projectName'].setValue(
           response.Data.Project
         );
@@ -188,18 +177,18 @@ this.projectService.getProject(projectID).subscribe(response => {
         console.log('Edit Log1 ::' + response.Data.Start_Date);
         console.log('Edit Log2 ::' + response.Data.End_Date);
 
-        let startDate: NgbDateStruct;
-        let endDate: NgbDateStruct;
+        // let startDate: NgbDateStruct;
+        // let endDate: NgbDateStruct;
 
         if (response.Data.Start_Date || response.Data.End_Date) {
           this.projectForm.controls['setDates'].setValue(true);
 
           console.log('Edit Log2 ::' + response.Data.Start_Date);
-                  console.log(
-                    'Edit Log2 ::' + response.Data.End_Date
-                  );
+          console.log('Edit Log2 ::' + response.Data.End_Date);
 
-          startDate = <NgbDateStruct> {
+          this.prjStartDate = moment(response.Data.Start_Date).format('YYYY-MM-DD');
+          this.prjEndDate = moment(response.Data.End_Date).format('YYYY-MM-DD');
+          /*startDate = <NgbDateStruct>{
             year: response.Data.Start_Date.getFullYear(),
             month: response.Data.Start_Date.getMonth() + 1,
             day: response.Data.Start_Date.getDate()
@@ -209,25 +198,23 @@ this.projectService.getProject(projectID).subscribe(response => {
             year: response.Data.End_Date.getFullYear(),
             month: response.Data.End_Date.getMonth() + 1,
             day: response.Data.End_Date.getDate()
-          };
+          };*/
 
-          this.projectForm.controls['startDate'].setValue(startDate);
-          this.projectForm.controls['endDate'].setValue(endDate);
+          // this.projectForm.controls['startDate'].setValue(startDate);
+          // this.projectForm.controls['endDate'].setValue(endDate);
         } else {
           this.projectForm.controls['setDates'].setValue(false);
         }
 
         if (response.Data.Manager_ID) {
-          this.userService
-            .getUser(response.Data.Manager_ID)
-            .subscribe(res => {
-              this.Manager = res.Data;
-              if (response.Data) {
-                this.projectForm.controls['manager'].setValue(
-                  `${this.Manager.First_Name} ${this.Manager.Last_Name}`
-                );
-              }
-            });
+          this.userService.getUser(response.Data.Manager_ID).subscribe(res => {
+            this.Manager = res.Data;
+            if (response.Data) {
+              this.projectForm.controls['manager'].setValue(
+                `${this.Manager.First_Name} ${this.Manager.Last_Name}`
+              );
+            }
+          });
         }
         this.userAction = 'Update';
       } else {

@@ -18,18 +18,18 @@ declare var $: any;
   styleUrls: ['./addtask.component.css']
 })
 export class AddtaskComponent implements OnInit {
-  today = new Date().toDateString();
+  today = new Date();
 
   taskId: any = null;
 
-  taskStartDate = moment(this.today).format('YYYY-MM-DD');
-  taskEndDate = moment(this.today).format('YYYY-MM-DD');
+  taskStartDate = moment(new Date(this.today)).format('YYYY-MM-DD');
+  taskEndDate = moment(new Date(this.today)).format('YYYY-MM-DD');
 
   task = <Task>{
     Task: '',
     Priority: 0,
-    Start_Date: moment().format('YYYY-MM-DD'),
-    End_Date: moment().format('YYYY-MM-DD')
+    Start_Date: moment(new Date(this.today)).format('YYYY-MM-DD'),
+    End_Date: moment(new Date(this.today)).format('YYYY-MM-DD')
   };
 
   isParentTask: false;
@@ -53,18 +53,22 @@ export class AddtaskComponent implements OnInit {
       this.taskService.getTask(this.taskId).subscribe(response => {
         this.task = response.Data;
 
-        const startDateSource = moment(this.task.Start_Date).toDate();
-        this.taskStartDate = moment(startDateSource).format('YYYY-MM-DD');
+        const startDateSource = moment(
+          this.task.Start_Date
+        ).toDate();
+        this.taskStartDate = moment(new Date(startDateSource))
+        .format('YYYY-MM-DD');
 
         const endDateSource = moment(this.task.End_Date).toDate();
-        this.taskEndDate = moment(endDateSource).format('YYYY-MM-DD');
+        this.taskEndDate = moment(new Date(endDateSource))
+        .format('YYYY-MM-DD');
       });
     }
   }
 
   reset() {
-    this.taskStartDate = moment(this.today).format('YYYY-MM-DD');
-    this.taskEndDate = moment(this.today).format('YYYY-MM-DD');
+    this.taskStartDate = moment(this.today.toString()).format('YYYY-MM-DD');
+    this.taskEndDate = moment(this.today.toString()).format('YYYY-MM-DD');
 
     this.task = <Task>{
       Task: null,
@@ -104,7 +108,11 @@ export class AddtaskComponent implements OnInit {
       // create individual task with or without linked to parent task
       this.taskService.addTask(this.task).subscribe(response => {
         if (response.Success === true) {
-          this.alertService.success('New Task Added Successfuly!', 'SUCCESS', 3000);
+          this.alertService.success(
+            'New Task Added Successfuly!',
+            'SUCCESS',
+            3000
+          );
           this.reset();
         } else {
           this.alertService.error(response.Message, 'Error', 3000);
