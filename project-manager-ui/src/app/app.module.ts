@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MatToolbarModule, MatFormFieldModule, MatInputModule, MatOptionModule,
   MatSelectModule, MatIconModule, MatButtonModule, MatCardModule, MatTableModule,
   MatDividerModule, MatSnackBarModule, matFormFieldAnimations } from '@angular/material';
@@ -66,6 +66,7 @@ const routes: Routes = [
     NgbModule.forRoot()
   ],
   providers: [
+    HttpClientModule,
     ToastrService,
     UserService,
     ParentTaskService,

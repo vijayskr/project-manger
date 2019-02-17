@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { UserService } from '../adduser/users.service';
 import { ProjectService } from './project.service';
 import { AlertService } from '../services/alert.service';
