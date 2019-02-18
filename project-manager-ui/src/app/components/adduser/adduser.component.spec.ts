@@ -19,13 +19,22 @@ import {
   ReactiveFormsModule,
   FormsModule
 } from '@angular/forms';
+
 import { UserService } from './users.service';
 import { AlertService } from '../services/alert.service';
 import { User } from '../../models/user';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../apiresponse/models/apires';
 import { of } from 'rxjs';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+const routes: Routes = [
+  { path: 'user', component: AdduserComponent },
+  { path: '', redirectTo: 'user', pathMatch: 'full' }
+];
+
 
 class MockUserService {
   users: User[];
@@ -54,10 +63,19 @@ describe('AdduserComponent', () => {
  beforeEach(() => {
    TestBed.configureTestingModule({
      declarations: [AdduserComponent],
-     imports: [FormsModule, ReactiveFormsModule],
+     imports: [
+       FormsModule,
+       ReactiveFormsModule,
+       HttpClientModule,
+       ToastrModule.forRoot({
+         toastClass: 'toast toast-bootstrap-compatibility-fix'
+       })
+     ],
      providers: [
        { provide: UserService, useClass: MockUserService },
        FormBuilder,
+       ToastrService,
+       HttpClientModule,
        { provide: AlertService, useClass: MockAlertService }
      ]
    }).compileComponents();

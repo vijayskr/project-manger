@@ -17,6 +17,10 @@ module.exports = function(config) {
       reports: ["html", "lcovonly"],
       fixWebpackSourcePaths: true
     },
+    ngHtml2JsPreprocessor: {
+    stripPrefix: 'src/',
+        moduleName: 'myAppTemplates'
+},
     reporters: ["progress", "kjhtml"],
     port: 9876,
     colors: true,

@@ -3,6 +3,7 @@ import { AdduserComponent } from './../adduser/adduser.component';
 import { AddtaskComponent } from './../addtask/addtask.component';
 import { ViewtaskComponent } from './../viewtask/viewtask.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, from } from 'rxjs';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -25,7 +26,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' }
 ];
 
-
 describe('AddprojectComponent', () => {
   let component: AddprojectComponent;
   let fixture: ComponentFixture<AddprojectComponent>;
@@ -45,24 +45,59 @@ describe('AddprojectComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        ToastrModule.forRoot({toastClass: 'toast toast-bootstrap-compatibility-fix'}),
+        ToastrModule.forRoot({
+          toastClass: 'toast toast-bootstrap-compatibility-fix'
+        }),
         RouterModule.forRoot(routes)
       ],
-      providers: [
-        HttpClientModule,
-        UserService,
-        AlertService
-      ]
+      providers: [HttpClientModule, UserService, AlertService, ProjectService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddprojectComponent);
-    component = fixture.componentInstance;
+    component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create Add Project Component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render title in a h tag', async(() => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h3').textContent).toContain(
+      'Add/Update Project:'
+    );
+  }));
+
+  it('should use the Projects from the service', () => {
+    const projectService = fixture.debugElement.injector.get(ProjectService);
+    const projects = [];
+    const spy = spyOn(projectService, 'getProjects').and.callFake(() => {
+      return from([projects]);
+    });
+    fixture.componentInstance.refreshList();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call the appProject service', () => {
+    const projectService = fixture.debugElement.injector.get(ProjectService);
+    const projects = [];
+    const spy = spyOn(projectService, 'addProject').and.callFake(() => {
+      return from([projects]);
+    });
+    fixture.componentInstance.addProject();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call the updateProject service', () => {
+    const projectService = fixture.debugElement.injector.get(ProjectService);
+    const projects = [];
+    const spy = spyOn(projectService, 'editProject').and.callFake(() => {
+      return from([projects]);
+    });
+    fixture.componentInstance.updateProject();
+    expect(spy).toHaveBeenCalled();
   });
 });
