@@ -24,110 +24,92 @@ import { UserService } from './users.service';
 import { AlertService } from '../services/alert.service';
 import { User } from '../../models/user';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { ApiResponse } from '../apiresponse/models/apires';
 import { of } from 'rxjs';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { DebugElement } from '@angular/core';
 
 const routes: Routes = [
   { path: 'user', component: AdduserComponent },
   { path: '', redirectTo: 'user', pathMatch: 'full' }
 ];
 
-
-class MockUserService {
-  users: User[];
-  constructor() {
-    this.users = <User[]>[
-      { First_Name: 'VJ', Last_Name: 'Bala', Employee_ID: 159159 },
-      { First_Name: 'Sank', Last_Name: 'V', Employee_ID: 159151 }
-    ];
-  }
-  getUsersList(
-    searchKey: string,
-    sortKey: string
-  ): Observable<ApiResponse<User[]>> {
-    const response = <ApiResponse<User[]>>{ Success: true, Data: this.users };
-    return of(response);
-  }
-}
-
-class MockAlertService {}
-
 describe('AdduserComponent', () => {
-  let component: AdduserComponent;
-  let fixture: ComponentFixture<AdduserComponent>;
+    let component: AdduserComponent;
+    let fixture: ComponentFixture<AdduserComponent>;
+    let debugElement: DebugElement;
+    let el: HTMLElement;
 
 
- beforeEach(() => {
-   TestBed.configureTestingModule({
-     declarations: [AdduserComponent],
-     imports: [
-       FormsModule,
-       ReactiveFormsModule,
-       HttpClientModule,
-       ToastrModule.forRoot({
-         toastClass: 'toast toast-bootstrap-compatibility-fix'
-       })
-     ],
-     providers: [
-       { provide: UserService, useClass: MockUserService },
-       FormBuilder,
-       ToastrService,
-       HttpClientModule,
-       { provide: AlertService, useClass: MockAlertService }
-     ]
-   }).compileComponents();
-   fixture = TestBed.createComponent(AdduserComponent);
-   component = fixture.debugElement.componentInstance;
- });
 
- it('should create a component', async(() => {
-   expect(component).toBeTruthy();
- }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AdduserComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        ToastrModule.forRoot({
+          toastClass: 'toast toast-bootstrap-compatibility-fix'
+        }),
+        RouterModule.forRoot(routes)
+      ],
+      providers: [
+        FormBuilder,
+        ToastrService,
+        HttpClientModule,
+        UserService,
+        AlertService
+      ]
+    }).compileComponents();
+  });
 
- it('should run #createForm()', async(() => {
-   const result = component.createForm();
-   expect(component.userForm.controls['firstName'].value === '');
- }));
+    beforeEach(() => {
+      fixture = TestBed.createComponent(AdduserComponent);
+      component = fixture.debugElement.componentInstance;
+      fixture.detectChanges();
+      debugElement = fixture.debugElement;
+      el = debugElement.nativeElement;
+    });
 
- it('should run #ngOnInit()', async(() => {}));
+  it('should create a component', async(() => {
+    expect(component).toBeTruthy();
+  }));
 
- it('should run #refreshList()', async(() => {
-   const result = component.refreshList();
-   expect(component.Users.length === 2);
- }));
+  it('should invoke the refreshList event.', async(() => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    const users = [];
+    const spy = spyOn(userService, 'getUsersList').and.callFake(() => {
+      return from([users]);
+    });
+    component.refreshList();
+    expect(spy).toHaveBeenCalled();
+  }));
 
- it('should run #addorUpdateUser()', async(() => {
-   // const result = component.addorUpdateUser();
- }));
+  it('should invoke the reset event.', async(() => {
+    component.reset();
+    expect(component.reset).toBeTruthy();
+  }));
 
- it('should run #addUser()', async(() => {
-   // const result = component.addUser();
- }));
+  it('should call the appUser service', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    const users = [];
+    const spy = spyOn(userService, 'addUser').and.callFake(() => {
+      return from([users]);
+    });
+    component.addUser();
+    expect(spy).toHaveBeenCalled();
+  });
 
- it('should run #editUser()', async(() => {
-   // const result = component.editUser(userID);
- }));
-
- it('should run #updateUser()', async(() => {
-   // const result = component.updateUser();
- }));
-
- it('should run #deleteUser()', async(() => {
-   // const result = component.deleteUser(userID);
- }));
-
- it('should run #reset()', async(() => {
-   // const result = component.reset();
- }));
-
- it('should run #search()', async(() => {
-   // const result = component.search(searchValue);
- }));
-
- it('should run #sort()', async(() => {
-   // const result = component.sort(sortKey);
- }));
+  it('should call the editUser service', () => {
+    const userService = fixture.debugElement.injector.get(UserService);
+    const users = [];
+    const spy = spyOn(userService, 'getUser').and.callFake(() => {
+      return from([users]);
+    });
+    component.editUser(1);
+    expect(spy).toHaveBeenCalled();
+  });
 });

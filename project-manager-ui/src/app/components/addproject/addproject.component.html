@@ -106,11 +106,11 @@
           formControlName="projectId"
           name="pruserSearchModelojectId"
         />
-        <button [disabled]="projectForm.invalid" class="btn btn-success">
+        <button [disabled]="projectForm.invalid" class="btn btn-success" id="btnAction">
           {{ userAction }}
         </button>
         &nbsp;&nbsp;
-        <button type="button" class="btn btn-link" (click)="reset()">
+        <button type="button" class="btn btn-link" (click)="reset()" id="btnReset">
           Reset
         </button>
       </div>

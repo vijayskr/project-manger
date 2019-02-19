@@ -18,6 +18,10 @@ module.exports = function(config) {
       reports: ["html", "lcovonly"],
       fixWebpackSourcePaths: true
     },
+    angularCli: {
+      environment: 'dev',
+      codeCoverage: true
+    },
     ngHtml2JsPreprocessor: {
     stripPrefix: 'src/',
         moduleName: 'myAppTemplates'

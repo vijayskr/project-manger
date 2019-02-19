@@ -4,6 +4,9 @@ import { AddtaskComponent } from './../addtask/addtask.component';
 import { ViewtaskComponent } from './../viewtask/viewtask.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, from } from 'rxjs';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import * as $ from 'jquery';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -29,7 +32,8 @@ const routes: Routes = [
 describe('AddprojectComponent', () => {
   let component: AddprojectComponent;
   let fixture: ComponentFixture<AddprojectComponent>;
-
+  let debugElement: DebugElement;
+  let el: HTMLElement;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -58,6 +62,8 @@ describe('AddprojectComponent', () => {
     fixture = TestBed.createComponent(AddprojectComponent);
     component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
+    debugElement = fixture.debugElement;
+    el = debugElement.nativeElement;
   });
 
   it('should create Add Project Component', () => {
@@ -100,4 +106,14 @@ describe('AddprojectComponent', () => {
     fixture.componentInstance.updateProject();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should invoke the Reset click event.', async(() => {
+    component.reset();
+    expect(component.reset).toBeTruthy();
+  }));
+
+  it('should invoke the Sort click event.', async(() => {
+    component.sort('Vijay');
+    expect(component.sort).toBeTruthy();
+  }));
 });

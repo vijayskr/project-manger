@@ -1,3 +1,4 @@
+import { Project } from './../../models/project';
 import { SearchparentComponent } from './../search/searchparent/searchparent.component';
 import { AdduserComponent } from './../adduser/adduser.component';
 import { AddtaskComponent } from './../addtask/addtask.component';
@@ -13,7 +14,6 @@ import { UserService } from '../adduser/users.service';
 import { ProjectService } from '../addproject/project.service';
 import { AlertService } from '../services/alert.service';
 import { User } from '../../models/user';
-import { Project } from '../../models/project';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchprojectComponent } from '../search/searchproject/searchproject.component';
@@ -27,10 +27,10 @@ const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' }
 ];
 
-
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
   let fixture: ComponentFixture<ViewtaskComponent>;
+  // let project: Project;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -52,7 +52,13 @@ describe('ViewtaskComponent', () => {
         }),
         RouterModule.forRoot(routes)
       ],
-      providers: [HttpClientModule, UserService, AlertService, ProjectService, TaskService]
+      providers: [
+        HttpClientModule,
+        UserService,
+        AlertService,
+        ProjectService,
+        TaskService
+      ]
     }).compileComponents();
   }));
 
@@ -66,29 +72,42 @@ describe('ViewtaskComponent', () => {
     expect(component).toBeTruthy();
   });
 
-   it('should render title in a h tag', async(() => {
-     const compiled = fixture.debugElement.nativeElement;
-     expect(compiled.querySelector('h3').textContent).toContain(
-       'View Task(s):'
-     );
-   }));
+  it('should render title in a h tag', async(() => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h3').textContent).toContain('View Task(s):');
+  }));
 
-   it('should call the getTask service', () => {
-     const taskService = fixture.debugElement.injector.get(TaskService);
-     const spy = spyOn(taskService, 'getTask').and.callFake(() => {
-       return from([]);
-     });
-     fixture.componentInstance.editTask(1);
-     expect(spy).toHaveBeenCalled();
-   });
+  it('should call the getTask service', () => {
+    const taskService = fixture.debugElement.injector.get(TaskService);
+    const spy = spyOn(taskService, 'getTask').and.callFake(() => {
+      return from([]);
+    });
+    fixture.componentInstance.editTask(1);
+    expect(spy).toHaveBeenCalled();
+  });
 
-   it('should call the endTask service', () => {
-     const taskService = fixture.debugElement.injector.get(TaskService);
+  it('should call the endTask service', () => {
+    const taskService = fixture.debugElement.injector.get(TaskService);
 
-     const spy = spyOn(taskService, 'endTask').and.callFake(() => {
-       return from([]);
-     });
-     fixture.componentInstance.endTask(1);
-     expect(spy).toHaveBeenCalled();
-   });
+    const spy = spyOn(taskService, 'endTask').and.callFake(() => {
+      return from([]);
+    });
+    fixture.componentInstance.endTask(1);
+    expect(spy).toHaveBeenCalled();
+  });
+/*
+  it('should invoke the Sort event.', async(() => {
+    component.sortTask('Priority');
+    expect(component.sortTask).toBeTruthy();
+  }));
+
+  it('should invoke the refreshList event.', async(() => {
+    const taskService = fixture.debugElement.injector.get(TaskService);
+    const tasks = [];
+    const spy = spyOn(taskService, 'getTasksList').and.callFake(() => {
+      return from([tasks]);
+    });
+    fixture.componentInstance.refreshList();
+    expect(spy).toHaveBeenCalled();
+  }));*/
 });
