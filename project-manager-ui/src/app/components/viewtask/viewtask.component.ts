@@ -68,7 +68,7 @@ export class ViewtaskComponent implements OnInit {
         if (response.Success === true) {
           if (response.Data.length === 0) {
             this.alertService.warn(
-              'No taks found for the project:' + this.project.Project,
+              'No Tasks found for the project:' + this.project.Project,
               'Warning',
               3000
             );

@@ -10,26 +10,22 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <input type="text" class="form-control" placeholder="Search.." name="UserSearch" (input)="searchUser($event.target.value)">
+            <input type="text" class="form-control" placeholder="Search.." name="UserSearch" (input)="searchUser($event.target.value)" id="userSearch">
             <br>
             <div class="row">
               <div class="col-md-12 searchTable">
                 <table class="table table-striped table-hovered table-bordered" *ngIf="Users && Users.length>0">
                   <thead class="table-primary">
                     <tr>
-                      <td></td>
-                      <td>First Name</td>
-                      <td>Last Name</td>
+                      <td>Employee Name</td>
                       <td>Employee ID</td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let user of Users">
                       <td>
-                        <input type="radio" [value]="user.User_ID" name="userID" (change)="selectUser($event.target.value)">
+                        <input type="radio" [value]="user.User_ID" name="userID" (change)="selectUser($event.target.value)"> {{user.First_Name}}  {{user.Last_Name}}
                       </td>
-                      <td>{{user.First_Name}}</td>
-                      <td>{{user.Last_Name}}</td>
                       <td>{{user.Employee_ID}}</td>
                     </tr>
                   </tbody>
@@ -41,8 +37,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" [disabled]="!enableAdd" (click)="addUser()">Add</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!enableSelect" (click)="addUser()">Select</button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

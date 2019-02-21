@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../adduser/users.service';
 import { User } from '../../../models/user';
@@ -16,7 +17,7 @@ export class SearchuserComponent implements OnInit {
   SortKey: string;
   SearchKey: string;
   SelectedUserID: number;
-  enableAdd: boolean;
+  enableSelect: boolean;
 
   constructor(private userService: UserService) {}
 
@@ -32,7 +33,7 @@ export class SearchuserComponent implements OnInit {
           this.Users = response.Data;
         }
       });
-    this.enableAdd = false;
+    this.enableSelect = false;
   }
 
   searchUser(searchValue: string) {
@@ -42,7 +43,7 @@ export class SearchuserComponent implements OnInit {
 
   selectUser(userID: number) {
     this.SelectedUserID = userID;
-    this.enableAdd = true;
+    this.enableSelect = true;
   }
 
   addUser() {
