@@ -17,6 +17,6 @@ COPY . /home/node/app
 
 COPY --chown=node:node . .
 
-EXPOSE 4301
+EXPOSE 4200
 
 CMD [ "ng", "serve" ]
