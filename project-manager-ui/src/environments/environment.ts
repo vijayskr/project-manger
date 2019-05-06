@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUri: 'http://localhost:4300',
+  apiBaseUri: 'https://projectmanagerserver.azurewebsites.net',
 
   endpoint_user_get: '/users',
   endpoint_user_add: '/users/add',
