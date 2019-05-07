@@ -22,7 +22,7 @@ FROM nginx:1.13.12-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copying nginx configuration.
-COPY /nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copying openhome-panel source into web server root.
 COPY --from=builder /home/node/app/public /usr/share/nginx/html
