@@ -6,7 +6,7 @@ RUN mkdir -p /home/node/app/node_modules
 WORKDIR /home/node/app
 
 # Installing dependencies.
-COPY package*.json /home/node/app/package.json
+COPY package*.json /home/node/app/
 RUN npm install
 
 # Add app
