@@ -26,7 +26,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copying source into web server root.
 #COPY --from=builder /home/node/app /usr/share/nginx/html
-COPY /home/node/app/* /usr/share/nginx/html/*
+COPY /home/node/app /usr/share/nginx/html
 
 # Exposing ports.
 EXPOSE 4222
