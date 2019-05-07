@@ -25,7 +25,7 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copying openhome-panel source into web server root.
-COPY --from=builder /home/node/app/public /usr/share/nginx/html
+COPY --from=builder /home/node/app /usr/share/nginx/html
 
 # Exposing ports.
 EXPOSE 4222
