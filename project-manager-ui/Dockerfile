@@ -13,7 +13,7 @@ RUN npm install
 COPY . /home/node/app
 
 # Building app.
-RUN npm run-script build
+#RUN npm run-script build
 
 ### STAGE 2: Setup ###
 FROM nginx:1.13.12-alpine
@@ -24,8 +24,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copying nginx configuration.
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copying openhome-panel source into web server root.
-COPY --from=builder /home/node/app /usr/share/nginx/html
+# Copying source into web server root.
+#COPY --from=builder /home/node/app /usr/share/nginx/html
+COPY /home/node/app/* /usr/share/nginx/html/*
 
 # Exposing ports.
 EXPOSE 4222
