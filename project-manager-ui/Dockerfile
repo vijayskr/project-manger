@@ -1,22 +1,34 @@
-FROM node:11.6.0-alpine AS builder
+### STAGE 1: Build ###
+FROM node:8.11.1-alpine as builder
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-
+# Preparing working environment.
+RUN mkdir -p /home/node/app/node_modules
 WORKDIR /home/node/app
 
-#USER node
-	
-COPY package.json /home/node/app/package.json
-
+# Installing dependencies.
+COPY package*.json /home/node/app/package.json
 RUN npm install
 
-RUN npm install -g @angular/cli
-
-# add app
+# Add app
 COPY . /home/node/app
 
-COPY --chown=node:node . .
+# Building app.
+RUN npm run-script build
 
-EXPOSE 4200
+### STAGE 2: Setup ###
+FROM nginx:1.13.12-alpine
 
-CMD [ "ng", "serve" ]
+# Removing nginx default page.
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copying nginx configuration.
+COPY /nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copying openhome-panel source into web server root.
+COPY --from=builder /home/node/app/public /usr/share/nginx/html
+
+# Exposing ports.
+EXPOSE 4222
+
+# Starting server.
+CMD [“nginx”, “-g”, “daemon off;”]
