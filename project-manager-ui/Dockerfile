@@ -1,5 +1,5 @@
 ### STAGE 1: Build ###
-FROM node:8.11.1-alpine as builder
+FROM node:10
 
 # Preparing working environment.
 RUN mkdir -p /home/node/app/node_modules
@@ -7,29 +7,15 @@ WORKDIR /home/node/app
 
 # Installing dependencies.
 COPY package.json /home/node/app/package.json
+
+RUN npm install --cache /tmp/empty-cache
 RUN npm install
+RUN npm install -g @angular/cli
 
 # Add app
 COPY . /home/node/app
 
-# Building app.
-#RUN npm run-script build
+EXPOSE 4200
 
-### STAGE 2: Setup ###
-FROM nginx:1.13.12-alpine
+CMD ["ng","serve","--host","0.0.0.0","--port","4200"]
 
-# Removing nginx default page.
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copying nginx configuration.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copying source into web server root.
-#COPY --from=builder /home/node/app /usr/share/nginx/html
-COPY /home/node/app /usr/share/nginx/html
-
-# Exposing ports.
-EXPOSE 4222
-
-# Starting server.
-CMD [“nginx”, “-g”, “daemon off;”]
